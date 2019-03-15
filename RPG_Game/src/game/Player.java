@@ -245,9 +245,7 @@ public class Player implements Serializable
 						move(this.currentArea);
 					}
 					
-					
 					IO.moveDirection(this, this.direction);
-					System.out.println("X: " + this.x + "\nY: " + this.y);
 					
 					if (!this.currentArea.getArea()[this.y][this.x].getEnemies().isEmpty())
 					{
