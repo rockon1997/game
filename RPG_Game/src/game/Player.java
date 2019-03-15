@@ -233,18 +233,19 @@ public class Player implements Serializable
 			
 			if (choice == 1)
 			{
+				direction = 0;
 				while (direction != 5)
 				{
 					System.out.println("1. Move up\n2. Move left\n3. Move right\n4. Move down\n5. Stop moving\n");
 					IO.inputString();
 					this.direction = scnr.nextInt();
 					
-					if (direction == 5)
+					if (this.direction == 5)
 					{
-						break;
+						move(this.currentArea);
 					}
 					
-					IO.moveDirection(this, direction);
+					IO.moveDirection(this, this.direction);
 					
 					if (!this.currentArea.getArea()[this.x][this.y].getEnemies().isEmpty())
 					{
@@ -252,7 +253,7 @@ public class Player implements Serializable
 						
 						this.currentArea.getArea()[this.x][this.y].getEnemies().remove(0);
 					}
-					if (this.currentArea.getArea()[this.x][this.y].isExit())
+					else if (this.currentArea.getArea()[this.x][this.y].isExit())
 					{
 						return;
 					}
@@ -276,8 +277,6 @@ public class Player implements Serializable
 		boolean found = false;
 		
 		Item addingItem = item;
-		
-		System.out.println("Item class: " + addingItem.getClass());
 		
 		for (Item currentItem : this.inventory)
 		{

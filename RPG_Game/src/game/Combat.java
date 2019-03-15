@@ -31,7 +31,7 @@ public class Combat
 				
 				if (droppedItem != null)
 				{
-					System.out.println("The " + enemy.getName() + " dropped a " + droppedItem.getName());
+					IO.itemDropped(enemy, droppedItem);
 					
 					player.addToInventory(droppedItem);
 				}

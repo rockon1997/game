@@ -102,8 +102,6 @@ public class IO
 	
 	public static void inGameMenu(Player player, int choice)
 	{
-		inGameMenuOutput();
-		
 		switch(choice)
 		{
 			case 2:
