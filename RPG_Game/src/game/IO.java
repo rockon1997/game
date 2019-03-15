@@ -102,6 +102,7 @@ public class IO
 	
 	public static void inGameMenu(Player player, int choice)
 	{
+		CLS();
 		switch(choice)
 		{
 			case 2:
@@ -139,9 +140,9 @@ public class IO
 		switch (direction)
 		{
 			case 1:
-				if (player.getX() - 1 >= 0)
+				if (player.getY() - 1 >= 0)
 				{
-					player.setX(player.getX() - 1);
+					player.setY(player.getY() - 1);
 				}
 				else
 				{
@@ -149,27 +150,27 @@ public class IO
 				}
 				break;
 			case 2:
-				if (player.getY() - 1 >= 0)
+				if (player.getX() - 1 >= 0)
 				{
-					player.setY(player.getY() - 1);
+					player.setX(player.getX() - 1);
 				}else
 				{
 					wall();
 				}
 				break;
 			case 3:
-				if (player.getY() + 1 < player.getCurrentArea().getArea().length)
+				if (player.getX() + 1 < player.getCurrentArea().getArea().length)
 				{
-					player.setY(player.getY() + 1);
+					player.setX(player.getX() + 1);
 				}else
 				{
 					wall();
 				}
 				break;
 			case 4:
-				if (player.getX() + 1 < player.getCurrentArea().getArea().length)
+				if (player.getY() + 1 < player.getCurrentArea().getArea().length)
 				{
-					player.setX(player.getX() + 1);
+					player.setY(player.getY() + 1);
 				}else
 				{
 					wall();

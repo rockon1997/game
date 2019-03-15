@@ -156,7 +156,7 @@ public class Player implements Serializable
 	
 	public void setHealth(double health)
 	{
-		this.health = health;
+		this.health = Math.ceil(health);
 	}
 	
 	public int getSpeed()
@@ -216,16 +216,16 @@ public class Player implements Serializable
 		
 		this.currentArea = area;
 		
+		if (!this.currentArea.getArea()[this.y][this.x].getEnemies().isEmpty())
+		{
+			new Combat().combat(this.currentArea.getArea()[this.y][this.x].getEnemies().get(0), this);
+			
+			this.currentArea.getArea()[this.y][this.x].getEnemies().remove(0);
+		}
+		
 		while (this.health > 0)
 		{
-			if (!this.currentArea.getArea()[this.x][this.y].getEnemies().isEmpty())
-			{
-				new Combat().combat(this.currentArea.getArea()[this.x][this.y].getEnemies().get(0), this);
-				
-				this.currentArea.getArea()[this.x][this.y].getEnemies().remove(0);
-			}
-			
-			this.currentArea.showArea(this.x, this.y);
+			this.currentArea.showArea(this.y, this.x);
 			
 			IO.inGameMenuOutput();
 			IO.inputString();
@@ -245,20 +245,22 @@ public class Player implements Serializable
 						move(this.currentArea);
 					}
 					
-					IO.moveDirection(this, this.direction);
 					
-					if (!this.currentArea.getArea()[this.x][this.y].getEnemies().isEmpty())
+					IO.moveDirection(this, this.direction);
+					System.out.println("X: " + this.x + "\nY: " + this.y);
+					
+					if (!this.currentArea.getArea()[this.y][this.x].getEnemies().isEmpty())
 					{
-						new Combat().combat(this.currentArea.getArea()[this.x][this.y].getEnemies().get(0), this);
+						new Combat().combat(this.currentArea.getArea()[this.y][this.x].getEnemies().get(0), this);
 						
-						this.currentArea.getArea()[this.x][this.y].getEnemies().remove(0);
+						this.currentArea.getArea()[this.y][this.x].getEnemies().remove(0);
 					}
-					else if (this.currentArea.getArea()[this.x][this.y].isExit())
+					else if (this.currentArea.getArea()[this.y][this.x].isExit())
 					{
 						return;
 					}
 					
-					this.currentArea.showArea(this.x, this.y);
+					this.currentArea.showArea(this.y, this.x);
 				}
 			}
 			else
@@ -296,22 +298,47 @@ public class Player implements Serializable
 	public void removeFromInventory()
 	{
 		int choice = 0;
+		int quantity = 0;
 		
-		displayInventory();
-		System.out.println();
-		
-		System.out.println("Choose which item to drop:\n");
-		IO.inputString();
-		choice = scnr.nextInt();
-		
-		if (inventory.get(choice-1) != null)
+		do
 		{
-			inventory.remove(choice-1);
-		}
-		else
-		{
-			System.out.println("No item in that slot.\n");
-		}
+			displayInventory();
+			System.out.println();
+			
+			System.out.println("Choose which item to drop: (Type -1 to exit)\n");
+			IO.inputString();
+			choice = scnr.nextInt();
+			
+			if (choice == -1)
+			{
+				return;
+			}
+			
+			if (this.inventory.get(choice-1) != null)
+			{
+				if (this.inventory.get(choice-1).quantity > 1)
+				{
+					System.out.println("How many do you want to drop?\n");
+					IO.inputString();
+					quantity = scnr.nextInt();
+					
+					this.inventory.get(choice-1).quantity -= quantity;
+					
+					if (this.inventory.get(choice-1).quantity < 0)
+					{
+						this.inventory.remove(choice-1);
+					}
+				}
+				else
+				{
+					this.inventory.remove(choice-1);
+				}
+			}
+			else
+			{
+				System.out.println("No item in that slot.\n");
+			}
+		} while (choice != -1);
 	}
 	
 	public void useItem()
@@ -631,6 +658,7 @@ public class Player implements Serializable
 			
 			out.writeInt(this.level);
 			out.writeInt(this.exp);
+			out.writeInt(this.expThreshold);
 			out.writeDouble(this.maxHealth);
 			out.writeDouble(this.health);
 			out.writeInt(this.dmg);
@@ -671,6 +699,7 @@ public class Player implements Serializable
 			
 			this.level = in.readInt();
 			this.exp = in.readInt();
+			this.expThreshold = in.readInt();
 			this.maxHealth = in.readDouble();
 			this.health = in.readDouble();
 			this.dmg = in.readInt();

@@ -12,8 +12,8 @@ public class Combat
 		
 		IO.encounter(enemy);
 		
-		System.out.println("\nCurrent health: " + player.getHealth());
-		System.out.println(enemy.getName() + " health: " + enemy.getHealth());
+		System.out.println("\nCurrent health: " + String.format("%.0f", player.getHealth()));
+		System.out.println(enemy.getName() + " health: " + String.format("%.0f",enemy.getHealth()));
 		
 		if (enemy.getSpeed() <= player.getSpeed())
 		{
@@ -88,8 +88,8 @@ public class Combat
 				}
 			}
 			
-			System.out.println("\nCurrent health: " + player.getHealth());
-			System.out.println(enemy.getName() + " health: " + enemy.getHealth());
+			System.out.println("\nCurrent health: " + String.format("%.0f", player.getHealth()));
+			System.out.println(enemy.getName() + " health: " + String.format("%.0f",enemy.getHealth()));
 		}
 	}
 	
