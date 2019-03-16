@@ -6,7 +6,7 @@ public class Area
 {
 	Room[][] area;
 	
-	Area()
+	public Area()
 	{
 		area = new Room[10][10];
 	}
@@ -88,7 +88,7 @@ public class Area
 				}
 				else
 				{
-					System.out.print(String.format("%-2s%-2s", "|", "O"));
+					System.out.print(String.format("%-2s%-2s", "|", " "));
 				}
 			}
 			System.out.println("|\n-----------------------------------------");

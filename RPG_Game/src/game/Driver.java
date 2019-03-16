@@ -2,16 +2,21 @@ package game;
 
 import java.util.*;
 
+import game.Sectors.SectorOne;
+
 public class Driver
 {
 	static Scanner scnr = new Scanner(System.in);
+	static Sector sector = new Sector();
+	static Sector sectorOne = new SectorOne();
 	static Area area = new Area();
 	static Player player = new Player();
 	static Combat combat = new Combat();
 	
 	public static void main(String[] arg)
 	{
-		mainMenu();
+		sectorOne.showSector(1, 1);
+		//mainMenu();
 	}
 	
 	public static void mainMenu()
